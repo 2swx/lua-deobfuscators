@@ -1,49 +1,26 @@
---require("bit")
-bit = {}
-function bit:bxor(a,b)--Bitwise xor
-    local p,c=1,0
-    while a>0 and b>0 do
-        local ra,rb=a%2,b%2
-        if ra~=rb then c=c+p end
-        a,b,p=(a-ra)/2,(b-rb)/2,p*2
+
+local text = [==[
+local ‪ = _G local ‪‪ = ‪['\115\116\114\105\110\103'] local ‪‪‪ = ‪['\98\105\116']['\98\120\111\114'] local function ‪‪‪‪‪‪‪(‪‪‪‪) if ‪‪['\108\101\110'](‪‪‪‪) == 0 then return ‪‪‪‪ end local ‪‪‪‪‪ = '' local ‪‪‪‪‪‪ = 0 for _ in ‪‪['\103\109\97\116\99\104'](‪‪‪‪,'\46') do if _ == '\124' then ‪‪‪‪‪ = ‪‪‪‪‪..‪‪['\99\104\97\114'](‪‪‪(‪‪‪‪‪‪,162)) ‪‪‪‪‪‪ = 0 else ‪‪‪‪‪‪ = ‪‪‪‪‪‪ +1 end end return ‪‪‪‪‪ end if ‪[‪‪‪‪‪‪‪[[‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪BR|]]]==1 then ‪[‪‪‪‪‪‪‪[[‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪|‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪j|‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪bd|‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪|‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪i|]]](‪‪‪‪‪‪‪[[‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪5|‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪1|‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪mQ|‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪SM|‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪N|]])end
+]==]
+
+
+local function deobfuscate(text)
+  text = text .. "else"
+  local text1 = ""
+  local text2 = ""
+  count = 0
+  for w in text:gmatch("(.-)else") do 
+    if count == 0 then 
+      text1 = w .. [[ print(" ‪‪‪‪‪ ") ]]
+      count = 1
+    else 
+      text2 = w
+      return text1 .. text2
     end
-    if a<b then a=b end
-    while a>0 do
-        local ra=a%2
-        if ra>0 then c=c+p end
-        a,p=(a-ra)/2,p*2
-    end
-    return c
+  end
+
 end
 
 
-local a = _G 
-local str = _G['string']
-local aaa = _G['bit']['bxor']
-local function obf(arg1) 
-  
-  if str['len'](arg1) == 0 then
-    return arg1
-  end 
-  local start = ''
-  
-  local zero = 0
-  --zero
-  for v in str['gmatch'](arg1,'&') do 
-    print(v)
-    if v == '|' then
-     
-      start = start..str['char'](_G['bit']['bxor'](zero,108))
-      zero = 0 
-    else 
-
-    zero = zero +1
-    end
-  end
-  return start
-end 
-
-local res = obf("a6|aaa|||a|aaaaaaaaaaaaaaaaaaaaaaaaaT|aaaaaaaaa|a|aaaaaaaaaa||aa8u|aaaaaaaaaaaaaaaaaaaaaaaaa22|")
-print(res)
---local resOfAA = aaaaaaa("a6baaabbbabaaaaaaaaaaaaaaaaaaaaaaaaaTbaaaaaaaaababaaaaaaaaaabbaa8ubaaaaaaaaaaaaaaaaaaaaaaaaa22b")
---res(resOfAA)
+ ‪‪‪‪‪ 
+print(deobfuscate(text))
